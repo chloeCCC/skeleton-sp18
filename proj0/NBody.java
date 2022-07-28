@@ -12,7 +12,8 @@ public class NBody {
 		In in = new In(f);
 		int n = in.readInt();
 		double r = in.readDouble();
-		for (int i = 0; i < 5; i++) {
+		int i = 0;
+		while (i < 5) {
 			double xxPos = in.readDouble();
 			double yyPos = in.readDouble();
 			double xxVel = in.readDouble();			
@@ -21,6 +22,7 @@ public class NBody {
 			String s = in.readString();
 			Planet p = new Planet(xxPos, yyPos, xxVel, yyVel, m, s);
 			pArray[i] = p;
+			i++;
 		}
 		return pArray;
 	
@@ -43,8 +45,8 @@ public class NBody {
 		StdDraw.enableDoubleBuffering();
 		double time = 0;
 		while(time < T) {
-			double[] xForces = new double[5];
-			double[] yForces = new double[5];
+			double[] xForces = new double[pArray.length];
+			double[] yForces = new double[pArray.length];
 			int i = 0;
 			for (Planet p: pArray) {
 				xForces[i] = p.calcNetForceExertedByX(pArray);
