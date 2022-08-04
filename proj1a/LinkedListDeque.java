@@ -5,9 +5,9 @@ public class LinkedListDeque<T> {
 
     /* Nested class */
     private class TNode {
-        public TNode prev;
-        public T item;
-        public TNode next;
+        private TNode prev;
+        private T item;
+        private TNode next;
 
         public TNode(TNode p, T i, TNode n) {
             item = i;
@@ -19,7 +19,7 @@ public class LinkedListDeque<T> {
     /* Create an empty Linked List Deque: An empty DLList has only a sentinel,
     and a sentinel.next and sentinel.prev both refer back to sentinel.*/
     public LinkedListDeque() {
-        sentinel = new TNode(sentinel,  (T)"Hi", sentinel);
+        sentinel = new TNode(sentinel, null, sentinel);
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
         size = 0;
@@ -67,7 +67,8 @@ public class LinkedListDeque<T> {
         }
     }
 
-    /* Removes and returns the item at the front of the deque. If no such item exists, returns null */
+    /* Removes and returns the item at the front of the deque.
+     If no such item exists, returns null */
     public T removeFirst() {
         if (!isEmpty()) {
             T temp = sentinel.next.item;
@@ -78,7 +79,8 @@ public class LinkedListDeque<T> {
         return null;
     }
 
-    /* Removes and returns the item at the last of the deque. If no such item exists, returns null */
+    /* Removes and returns the item at the last of the deque.
+    If no such item exists, returns null */
     public T removeLast() {
         if (!isEmpty()) {
             T temp = sentinel.prev.item;
