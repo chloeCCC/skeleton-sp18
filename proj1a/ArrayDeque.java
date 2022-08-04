@@ -62,7 +62,8 @@ public class ArrayDeque<T> {
         }
     }
 
-    /* Removes and returns the item at the front of the deque. If no such item exists, returns null */
+    /* Removes and returns the item at the front of the deque.
+    If no such item exists, returns null */
     public T removeFirst() {
         if (!isEmpty()) {
             T temp = items[front];
@@ -77,7 +78,8 @@ public class ArrayDeque<T> {
         return null;
     }
 
-    /* Removes and returns the item at the last of the deque. If no such item exists, returns null */
+    /* Removes and returns the item at the last of the deque.
+    If no such item exists, returns null */
     public T removeLast() {
         if (!isEmpty()) {
             T temp = items[back];

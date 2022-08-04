@@ -1,25 +1,30 @@
 public class LinkedListDeque<T> {
 
     private int size;
-    private TNode sentinel;
+    private TNode<T> sentinel;
 
     /* Nested class */
-    private class TNode {
-        private TNode prev;
+    private class TNode<T> {
+        private TNode<T> prev;
         private T item;
-        private TNode next;
+        private TNode<T> next;
 
-        public TNode(TNode p, T i, TNode n) {
+        public TNode(TNode<T> p, T i, TNode<T> n) {
             item = i;
             prev = p;
             next = n;
         }
+        public TNode() {
+            prev = null;
+            next = null;
+        }
+
     }
 
     /* Create an empty Linked List Deque: An empty DLList has only a sentinel,
     and a sentinel.next and sentinel.prev both refer back to sentinel.*/
     public LinkedListDeque() {
-        sentinel = new TNode(sentinel, null, sentinel);
+        sentinel = new TNode<T> ();
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
         size = 0;
@@ -34,13 +39,15 @@ public class LinkedListDeque<T> {
 
     /* Adds an item of type T to the front of the deque */
     public void addFirst(T item) {
-        sentinel.next = new TNode(sentinel, item, sentinel.next);
+        sentinel.next = new TNode<T>(sentinel, item, sentinel.next);
+        sentinel.next.next.prev = sentinel.next;
         size += 1;
     }
 
     /* Adds an item of type T to the back of the deque */
     public void addLast(T item) {
-        sentinel.prev = new TNode(sentinel.prev, item, sentinel);
+        sentinel.prev.next = new TNode<T>(sentinel.prev, item, sentinel);
+        sentinel.prev = sentinel.prev.next;
         size += 1;
     }
 
@@ -59,12 +66,13 @@ public class LinkedListDeque<T> {
 
     /* Prints the items in the deque from first to last, separated by a space. */
     public void printDeque() {
-        TNode p = sentinel;
+        TNode<T> p = sentinel;
         p = p.next;
         while (p != sentinel) {
-            System.out.print(" ");
+            System.out.print(" " + p.item);
             p = p.next;
         }
+        System.out.print("\n");
     }
 
     /* Removes and returns the item at the front of the deque.
@@ -73,6 +81,7 @@ public class LinkedListDeque<T> {
         if (!isEmpty()) {
             T temp = sentinel.next.item;
             sentinel.next = sentinel.next.next;
+            sentinel.next.prev = sentinel;
             size -= 1;
             return temp;
         }
@@ -85,6 +94,7 @@ public class LinkedListDeque<T> {
         if (!isEmpty()) {
             T temp = sentinel.prev.item;
             sentinel.prev = sentinel.prev.prev;
+            sentinel.prev.prev.next = sentinel;
             size -= 1;
             return temp;
         }
@@ -96,7 +106,7 @@ public class LinkedListDeque<T> {
     If no such item exists, returns null. Must not alter the deque! Must use Iteration.
      */
     public T get(int index) {
-        TNode p = sentinel;
+        TNode<T> p = sentinel;
         int i = 0;
         p = p.next;
         while (i < size) {
@@ -115,11 +125,11 @@ public class LinkedListDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        TNode p = sentinel;
+        TNode<T> p = sentinel;
         return helper(p.next, index);
     }
 
-    private T helper(TNode p, int index) {
+    private T helper(TNode<T> p, int index) {
         if (index == 0) {
             return p.item;
         }
