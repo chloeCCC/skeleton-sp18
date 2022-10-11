@@ -16,6 +16,7 @@ public class LinkedListDeque<T> {
         }
         public TNode() {
             prev = null;
+            item = (T) new Object();
             next = null;
         }
 
@@ -30,33 +31,26 @@ public class LinkedListDeque<T> {
         size = 0;
     }
 
-//    public LinkedListDeque(T item) {
-//        sentinel = new TNode((T)63, null, null);
-//        sentinel.next = new TNode(item, sentinel, sentinel);
-//        sentinel.prev = new TNode(item, sentinel, sentinel);
-//        size = 1;
-//    }
 
     /* Adds an item of type T to the front of the deque */
     public void addFirst(T item) {
-        sentinel.next = new TNode<T>(sentinel, item, sentinel.next);
-        sentinel.next.next.prev = sentinel.next;
+        TNode newNode = new TNode(sentinel, item, sentinel.next);
+        sentinel.next = newNode;
+        sentinel.next.next.prev = newNode;
         size += 1;
     }
 
     /* Adds an item of type T to the back of the deque */
     public void addLast(T item) {
-        sentinel.prev.next = new TNode<T>(sentinel.prev, item, sentinel);
-        sentinel.prev = sentinel.prev.next;
+        TNode newNode = new TNode(sentinel.prev, item, sentinel);
+        sentinel.prev.next = newNode;
+        sentinel.prev = newNode;
         size += 1;
     }
 
     /* Returns true if deque is empty, false otherwise */
     public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        }
-        return false;
+        return size == 0;
     }
 
     /* Returns the number of items in the deque. Must be a constant time */
@@ -94,7 +88,7 @@ public class LinkedListDeque<T> {
         if (!isEmpty()) {
             T temp = sentinel.prev.item;
             sentinel.prev = sentinel.prev.prev;
-            sentinel.prev.prev.next = sentinel;
+            sentinel.prev.next = sentinel;
             size -= 1;
             return temp;
         }
