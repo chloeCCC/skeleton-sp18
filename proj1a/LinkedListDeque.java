@@ -1,5 +1,4 @@
 public class LinkedListDeque<T> {
-
     private int size;
     private TNode<T> sentinel;
 
@@ -25,7 +24,7 @@ public class LinkedListDeque<T> {
     /* Create an empty Linked List Deque: An empty DLList has only a sentinel,
     and a sentinel.next and sentinel.prev both refer back to sentinel.*/
     public LinkedListDeque() {
-        sentinel = new TNode<T> ();
+        sentinel = new TNode<T>();
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
         size = 0;
@@ -129,5 +128,5 @@ public class LinkedListDeque<T> {
         }
         return helper(p.next, index--);
     }
-
 }
+

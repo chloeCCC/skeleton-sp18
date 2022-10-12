@@ -7,8 +7,8 @@ public class ArrayDeque<T> {
     /* Create an empty Array Deque: */
     public ArrayDeque() {
         items = (T[]) new Object[capacity];
-        front = 4;
-        back = 5;
+        front = 0;
+        back = 0;
     }
 
 
@@ -23,13 +23,11 @@ public class ArrayDeque<T> {
 
     /* Adds an item of type T to the back of the deque */
     public void addLast(T item) {
-        if(isFull()) {
+        if (isFull()) {
             resize((int) (capacity * 1.5));
-
         }
-        //items[back] = item;
-        back = (back + 1 + capacity) % capacity;
         items[back] = item;
+        back = (back + 1 + capacity) % capacity;
     }
 
     /* Returns true if deque is empty, false otherwise */
@@ -39,15 +37,14 @@ public class ArrayDeque<T> {
 
     /* Returns the number of items in the deque. Must be a constant time */
     public int size() {
-        return (back - front + 1 + capacity) % capacity;
+        return (back - front + capacity) % capacity;
     }
 
     /* Prints the items in the deque from first to last, separated by a space. */
     public void printDeque() {
-        int temp = front;
         if (front < back) {
-            for (int i = front; i <= back; i++) {
-                if (i == back) {
+            for (int i = front; i < back; i++) {
+                if (i == back - 1) {
                     System.out.println(items[i]);
                     break;
                 }
@@ -57,8 +54,8 @@ public class ArrayDeque<T> {
             for (int i = front; i < capacity; i++) {
                 System.out.println(items[i] + " ");
             }
-            for (int i = 0; i <= back; i++) {
-                if (i == back) {
+            for (int i = 0; i < back; i++) {
+                if (i == back - 1) {
                     System.out.println(items[i]);
                     break;
                 }
@@ -100,7 +97,7 @@ public class ArrayDeque<T> {
     If no such item exists, returns null. Must not alter the deque! Must use Iteration.
      */
     public T get(int index) {
-        if (index >= capacity || index < 0 || isEmpty()) {
+        if (index >= size() || index < 0 || isEmpty()) {
             return null;
         }
         if (front < back) {
@@ -117,8 +114,7 @@ public class ArrayDeque<T> {
 
     // check if array is full
     private boolean isFull() {
-       // return size() == capacity - 1;
-        return size() == capacity;
+        return size() == capacity - 1;
     }
 
 
@@ -127,7 +123,7 @@ public class ArrayDeque<T> {
         T[] newArray = (T[]) new Object[newSize];
         int size = size();
         if (front < back) {
-            for (int i = front, j = 0; i <= back && j < size; i++, j++) {
+            for (int i = front, j = 0; i < back && j < size; i++, j++) {
                 newArray[j] = items[i];
             }
         } else if (front > back) {
@@ -140,18 +136,10 @@ public class ArrayDeque<T> {
             }
         }
         front = 0;
-        back = size - 1;
+        back = size;
         items = newArray;
         capacity = newSize;
 
-    }
-
-    // check if capacity is >= 16, usage >= 25%
-    private boolean isLowUsage() {
-        if (capacity >= 16 && size()/ (double) capacity < 0.25) {
-            return false;
-        }
-        return true;
     }
 
 }
