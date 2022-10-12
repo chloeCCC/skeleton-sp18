@@ -142,4 +142,12 @@ public class ArrayDeque<T> {
 
     }
 
+    // check if capacity is >= 16, usage >= 25%
+    private boolean isLowUsage() {
+        if (capacity >= 16 && size() / (double) capacity < 0.25) {
+            return false;
+        }
+        return true;
+    }
+
 }
